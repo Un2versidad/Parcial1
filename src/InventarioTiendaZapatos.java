@@ -8,7 +8,7 @@ public class InventarioTiendaZapatos {
     private static final List<Producto> productos = new ArrayList<>();
 
     public static void main(String[] args) {
-        mostrarTitulo();
+        mostrarSeccion("SISTEMA DE GESTIÓN DE INVENTARIO DE ZAPATOS");
         boolean salir = false;
 
         try (Scanner sc = new Scanner(System.in)) {
@@ -29,10 +29,8 @@ public class InventarioTiendaZapatos {
         System.out.println("¡Hasta luego!");
     }
 
-    private static void mostrarTitulo() {
-        System.out.println("╔══════════════════════════════════════════════════╗");
-        System.out.println("║    SISTEMA DE GESTIÓN DE INVENTARIO DE ZAPATOS   ║");
-        System.out.println("╚══════════════════════════════════════════════════╝");
+    private static void mostrarSeccion(String titulo) {
+        System.out.printf("\n╔═%s═╗\n║ %s ║\n╚═%s═╝\n", "═".repeat(titulo.length()), titulo, "═".repeat(titulo.length()));
     }
 
     private static void mostrarMenu() {
@@ -47,10 +45,7 @@ public class InventarioTiendaZapatos {
     }
 
     private static void agregarProducto(Scanner sc) {
-        System.out.println("\n╔════════════════════════╗");
-        System.out.println("║ AGREGAR NUEVO PRODUCTO ║");
-        System.out.println("╚════════════════════════╝");
-
+        mostrarSeccion("AGREGAR NUEVO PRODUCTO");
         String nombre = getValidInput(sc, "Ingrese el nombre del producto: ", Function.identity(), input -> !input.isEmpty());
         int cantidadInicial = getValidInput(sc, "Ingrese la cantidad inicial: ", Integer::parseInt, input -> input > 0);
         double precioVenta = getValidInput(sc, "Ingrese el precio de venta: ", Double::parseDouble, input -> input >= 0);
@@ -68,10 +63,7 @@ public class InventarioTiendaZapatos {
     }
 
     private static void venderProducto(Scanner sc) {
-        System.out.println("\n╔═════════════════════════╗");
-        System.out.println("║    VENTA DE PRODUCTOS   ║");
-        System.out.println("╚═════════════════════════╝");
-
+        mostrarSeccion("VENTA DE PRODUCTOS");
         String nombre = getValidInput(sc, "Ingrese el nombre del producto a vender: ", Function.identity(), input -> !input.isEmpty());
         Optional<Producto> producto = buscarProducto(nombre);
 
@@ -96,10 +88,7 @@ public class InventarioTiendaZapatos {
     }
 
     private static void mostrarInventario() {
-        System.out.println("\n╔═══════════════════════╗");
-        System.out.println("║   INVENTARIO ACTUAL   ║");
-        System.out.println("╚═══════════════════════╝");
-
+        mostrarSeccion("INVENTARIO ACTUAL");
         if (productos.isEmpty()) {
             System.out.println("No hay productos en el inventario.");
         } else {
@@ -112,10 +101,10 @@ public class InventarioTiendaZapatos {
         }
     }
 
-    private static <T> T getValidInput(Scanner sc, String mensaje, Function<String, T> parser, Function<T, Boolean> validator) {
+    private static <T> T getValidInput(Scanner sc, String msg, Function<String, T> parser, Function<T, Boolean> validator) {
         T result;
         do {
-            System.out.print(mensaje);
+            System.out.print(msg);
             String input = sc.nextLine().trim();
             result = null;
             try {
